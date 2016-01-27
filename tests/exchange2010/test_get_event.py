@@ -98,6 +98,9 @@ class Test_ParseEventResponseData(unittest.TestCase):
   def test_optional_attendees_are_optional(self):
     assert sorted(self.event.optional_attendees) == sorted(OPTIONAL_PEOPLE)
 
+  def test_categories_are_correct(self):
+    assert sorted(self.event.categories) == sorted(["dino", "saur"])
+
   def test_conflicting_event_ids(self):
     assert self.event.conflicting_event_ids[0] == TEST_CONFLICT_EVENT.id
 

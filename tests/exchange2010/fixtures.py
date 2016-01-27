@@ -336,6 +336,10 @@ GET_ITEM_RESPONSE = u"""<s:Envelope xmlns:s="http://schemas.xmlsoap.org/soap/env
                   <t:LastResponseTime>{resource.last_response:%Y-%m-%dT%H:%M:%SZ}</t:LastResponseTime>
                 </t:Attendee>
               </t:Resources>
+              <t:Categories>
+                  <t:String>dino</t:String>
+                  <t:String>saur</t:String>
+              </t:Categories>
 
               <t:ConflictingMeetingCount>1</t:ConflictingMeetingCount>
               <t:AdjacentMeetingCount>1</t:AdjacentMeetingCount>
