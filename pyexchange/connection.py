@@ -6,6 +6,7 @@ Unless required by applicable law or agreed to in writing, software?distributed 
 """
 import requests
 from requests_ntlm import HttpNtlmAuth
+from requests.auth import HTTPBasicAuth
 
 import logging
 
@@ -39,7 +40,8 @@ class ExchangeNTLMAuthConnection(ExchangeBaseConnection):
 
     log.debug(u'Constructing password manager')
 
-    self.password_manager = HttpNtlmAuth(self.username, self.password)
+    # self.password_manager = HttpNtlmAuth(self.username, self.password)
+    self.password_manager = HTTPBasicAuth(self.username, self.password)
 
     return self.password_manager
 
@@ -62,6 +64,10 @@ class ExchangeNTLMAuthConnection(ExchangeBaseConnection):
 
     try:
       response = self.session.post(self.url, data=body, headers=headers, verify = self.verify_certificate)
+      if response.status_code == 401:
+        self.password_manager = HttpNtlmAuth(self.username, self.password) 
+        self.session.auth = self.password_manager
+        response = self.session.post(self.url, data=body, headers=headers, verify = self.verify_certificate)
       response.raise_for_status()
     except requests.exceptions.RequestException as err:
       log.debug(err.response.content)
